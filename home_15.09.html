@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ห้องสมุด Rodjana สถานที่ที่เต็มไปด้วยความรู้และความสนุกสนาน">
+    <title>Library Rodjana</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== เปลี่ยนสีพื้นหลังทั้งหน้าเป็น #F99584 ===== */
+        body {
+            background-color: #FFC2D1 !important;
+            background: #FFC2D1 !important;
+        }
+
+        header {
+            width: 100%;
+            height: 32vh;
+            overflow: hidden;
+            position: relative;
+            background-color: #ffffff;
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        header img.active { opacity: 1; }
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(236, 40, 206, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 3;
+        }
+        .carousel-control.prev { left: 10px; }
+        .carousel-control.next { right: 10px; }
+        .carousel-control:hover { background-color: rgba(238, 94, 210, 0.8); }
+        .navbar { margin-bottom: 20px; background-color: #d0449a; padding: 10px 0; }
+        .content { padding: 20px; }
+        footer { background-color: #d95c9b; color: white; text-align: center; padding: 10px 0; width: 100%; }
+        .social-icons a { color: white; margin: 0 10px; font-size: 1.5em; }
+        .nav-item { margin: 0 10px; }
+        .nav-link { color: #02181f !important; font-size: 18px; font-weight: bold; padding: 10px 20px; border-radius: 5px; transition: all 0.3s ease; }
+        .nav-link:hover { background-color: #eb1cc5; color: #fff !important; transform: translateY(-3px); }
+        .nav-link.active { background-color: #dd53d6; color: #fff !important; }
+        .navbar-toggler { border-color: #ebeff0; background-color: #7a2783; }
+        .navbar-toggler-icon { background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23ecf0f1' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); }
+        .dropdown-menu { background-color: #e4dfe4; border: none; box-shadow: 0 4px 8px rgba(176, 32, 157, 0.2); }
+        .dropdown-item { color: #31a8c9; font-size: 16px; padding: 10px 20px; transition: all 0.3s ease; position: relative; }
+        .dropdown-item:hover { color: #e237a9 !important; background-color: #f4f9fc; transform: translateX(10px); }
+        .dropdown-item:active { color: #220909 !important; background-color: #e74c3c; }
+        .dropdown-item::after { content: ''; position: absolute; width: 0; height: 2px; background-color: #3498db; bottom: 0; left: 0; transition: width 0.3s ease; }
+        .dropdown-item:hover::after { width: 100%; }
+
+        /* Navbar custom */
+        .navbar-custom { background-color: #46c9e3; }
+        .navbar-custom .navbar-nav .nav-link { color: white; }
+        .navbar-custom .navbar-nav .nav-link:hover { background-color: rgb(190, 22, 126); }
+        .dropdown-submenu { position: relative; }
+        .dropdown-submenu > .dropdown-menu { top: 0; left: 100%; margin-top: -6px; margin-left: -1px; }
+        .dropdown-submenu:hover > .dropdown-menu { display: block; }
+
+        /* Slider */
+        .slider-container { position: relative; width: 100%; height: 350px; overflow: hidden; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        .slides { display: flex; width: 300%; height: 100%; transition: transform 0.5s ease-in-out; }
+        .slide { width: 33.333%; height: 100%; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+        .slider-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 1.2rem; color: #1a6dba; }
+        .slider-nav:hover { background: white; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+        .prev { left: 15px; } .next { right: 15px; }
+        .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; }
+        .slider-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: background 0.3s ease; }
+        .slider-dot.active { background: white; }
+
+        /* Content boxes */
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .two-column-layout { display: flex; gap: 25px; margin-top: 20px; }
+        .left-column { flex: 1; } .right-column { flex: 1; }
+        .content-box { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .content-box h2 { color: #1a6dba; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #eaeaea; display: flex; align-items: center; font-size: 1.5rem; }
+        .content-box h2 i { margin-right: 12px; font-size: 1.3rem; }
+
+        /* News & Events */
+        .news-list { list-style: none; padding: 0; }
+        .news-list li { padding: 15px; margin-bottom: 12px; border-left: 4px solid #667eea; background: #f8f9ff; border-radius: 8px; transition: all 0.3s ease; }
+        .news-list li a { text-decoration: none; color: #333; display: block; position: relative; padding-right: 30px; }
+        .news-list li:hover { background: #667eea; transform: translateX(10px); box-shadow: 0 5px 15px rgba(102,126,234,0.3); }
+        .news-list li:hover a { color: white; }
+        .news-list li.new::before { content: 'ใหม่'; background: #ff4757; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-right: 8px; font-weight: bold; }
+        .event-list { list-style: none; padding: 0; }
+        .event-list li { display: flex; gap: 15px; padding: 15px; margin-bottom: 12px; background: #f8f9ff; border-radius: 8px; transition: all 0.3s ease; cursor: pointer; }
+        .event-list li a { text-decoration: none; color: inherit; display: flex; gap: 15px; width: 100%; }
+        .event-list li:hover { background: #764ba2; color: white; transform: translateX(10px); box-shadow: 0 5px 15px rgba(118,75,162,0.3); }
+        .event-date { background: #667eea; color: white; padding: 10px 15px; border-radius: 8px; font-weight: bold; text-align: center; min-width: 90px; font-size: 14px; transition: all 0.3s ease; }
+        .event-list li:hover .event-date { background: white; color: #764ba2; }
+        .event-info { flex: 1; }
+        .event-title { font-weight: bold; margin-bottom: 5px; font-size: 16px; }
+
+        /* News grid */
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .news-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; cursor: pointer; }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .image-container { position: relative; height: 200px; overflow: hidden; }
+        .news-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .news-card:hover .news-image { transform: scale(1.05); }
+        .badge { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; z-index: 2; }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44,62,80,0.8); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+        .news-card:hover .overlay { opacity: 1; }
+        .overlay-text { color: white; font-weight: bold; font-size: 1.1rem; }
+        .news-content { padding: 20px; }
+        .news-date { color: #7f8c8d; font-size: 0.9rem; margin-bottom: 10px; }
+        .news-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 12px; color: #2c3e50; line-height: 1.4; }
+        .news-description { color: #555; font-size: 0.95rem; }
+
+        /* Library section */
+        .library-header { background: linear-gradient(135deg, #2c5282 0%, #2b6cb0 100%); color: white; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); padding: 50px 40px; margin: 30px 0 40px 0; position: relative; overflow: hidden; }
+        .library-header h1 { margin: 0 0 15px 0; font-size: 2.8em; font-weight: 600; position: relative; z-index: 1; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .library-header p { margin: 0; font-size: 1.3em; opacity: 0.95; position: relative; z-index: 1; font-weight: 300; }
+        .library-main-container { max-width: 1400px; margin: 0 auto; padding: 0 20px 60px 20px; }
+        .library-home-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; padding: 20px 0; }
+        .library-menu-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); cursor: pointer; position: relative; }
+        .library-menu-card:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
+        .library-menu-image { width: 100%; height: 240px; overflow: hidden; position: relative; }
+        .library-menu-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.175,0.885,0.32,1.275); }
+        .library-menu-card:hover .library-menu-image img { transform: scale(1.15); }
+        .library-menu-content { padding: 28px; position: relative; z-index: 2; }
+        .library-menu-content h3 { color: #2d3748; font-size: 1.6em; font-weight: 600; margin: 0 0 12px 0; transition: color 0.3s ease; }
+        .library-menu-card:hover .library-menu-content h3 { color: #667eea; }
+        .library-menu-content p { color: #718096; font-size: 1em; line-height: 1.6; margin: 0 0 20px 0; }
+        .library-menu-btn { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 28px; border-radius: 25px; font-size: 0.95em; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102,126,234,0.3); }
+        .library-menu-card:hover .library-menu-btn { transform: translateX(5px); }
+
+        /* Jumbotron */
+        .jumbotron { padding: 2rem 1rem; margin-bottom: 2rem; background-color: #e9ecef; border-radius: 0.3rem; }
+        .menu-toggle-btn { padding: 8px 15px; font-size: 14px; }
+        .dropdown-menu-container { display: none; position: absolute; left: 50%; transform: translateX(-50%); top: 100%; width: auto; min-width: 200px; background-color: white; border: 1px solid rgba(0,0,0,.15); border-radius: 0.25rem; box-shadow: 0 0.5rem 1rem rgba(0,0,0,.175); z-index: 1000; padding: 10px; }
+        .dropdown-menu-container.show { display: block; }
+        .dropdown-menu-container .nav-link { color: #333; padding: 8px 12px; margin-bottom: 3px; border-radius: 4px; text-align: left; font-size: 14px; white-space: nowrap; }
+        .dropdown-menu-container .nav-link:hover { background-color: #f8f9fa; }
+        .dropdown-menu-container .nav-link.active { background-color: #007bff; color: white; }
+
+        /* Scroll container */
+        div.scroll-container { background-color: #fcf779; overflow: auto; white-space: nowrap; padding: 10px; }
+        div.scroll-container img { padding: 10px; }
+
+        /* Notification */
+        .notification-bar { background: linear-gradient(90deg, #2ecc71, #27ae60); color: white; padding: 12px 0; overflow: hidden; position: relative; border-radius: 4px; margin: 15px 0; }
+        .notification-content { display: inline-flex; align-items: center; white-space: nowrap; padding-left: 100%; animation: scrollText 25s linear infinite; }
+        .notification-icon { margin-right: 10px; font-size: 18px; }
+        @keyframes scrollText { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+
+        @media (max-width: 768px) {
+            .two-column-layout { flex-direction: column; }
+            .news-grid { grid-template-columns: 1fr; }
+            .library-home-menu { grid-template-columns: 1fr; }
+        }
+.highlight-btn-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 16px;
+}
+
+.highlight-btn-item {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 12px;
+    flex: 1;
+    min-width: 100px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.highlight-btn-item:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.highlight-btn-item:active {
+    background-color: #f0f0f0;
+    transform: translateY(1px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    transition: all 0.1s ease;
+}
+
+.highlight-btn-txt {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.highlight-btn-desp {
+    color: #666;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+.highlight-btn-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.highlight-btn-item {
+    transition: filter 0.1s ease;
+    cursor: pointer;
+}
+
+.highlight-btn-item.clicked {
+    filter: brightness(0.75);
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <img src="./img/title4.png" alt="Library Rodjana" class="active">
+        <img src="./img/title5.png" alt="Library Rodjana">
+        <img src="./img/title4.png" alt="Library Rodjana">
+        <button class="carousel-control prev" onclick="prevImage()">&#10094;</button>
+        <button class="carousel-control next" onclick="nextImage()">&#10095;</button>
+    </header>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="http://libraryrodjana.com/home.html">
+                            <i class="fa fa-home"></i> หน้าแรก
+                        </a>
+                    </li>
+                    <a class="nav-link dropdown-toggle" href="#about" id="navbarDropdownAbout" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="./img/icon1.png" alt="เกี่ยวกับเรา" width="20" height="20"> เกี่ยวกับเรา
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownAbout">
+                        <li><a class="dropdown-item" href="http://libraryrodjana.com/LibraryHistory.html">ประวัติความเป็นมาห้องสมุด </a></li>
+                        <li><a class="dropdown-item" href="http://libraryrodjana.com/medical/structure.html">โครงสร้างการบริหารงานห้องสมุด</a></li>
+                        <li><a class="dropdown-item" href="http://192.168.84.2/library/main/login.asp?openpage=False">บุคลากรปฏิบัติงานห้องสมุด</a></li>
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item" href="#mission"><i class="fas fa-hospital-user"></i> ฝ่ายงาน(กลุ่มงาน)</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-baby"></i> กุมารเวชกรรม</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-bone"></i> ออโธปิดิกส์</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-female"></i> สูติ-นรีเวชกรรม</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user-md"></i> ศัลยกรรม</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#services" id="navbarDropdownServices" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="./img/icon3.png" alt="บริการ" width="20" height="20"> บริการของเรา
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownServices">
+                            <li><a class="dropdown-item" href="http://libraryrodjana.com/library.html">ห้องสมุดโรงพยาบาล (library sunpasit)</a></li>
+                            <li><a class="dropdown-item" href="http://libraryrodjana.com/medical.html">ฐานข้อมูลหนังสืออิเล็กทรอนิกส์ (E-Book)</a></li>
+                            <li><a class="dropdown-item" href="http://libraryrodjana.com/service.html">บริการพื้นที่สำหรับการอ่านและศึกษาค้นคว้า </a></li>
+                            <li><a class="dropdown-item" href="http://libraryrodjana.com/medical.html">บริการยืม–คืนทรัพยากรสารสนเทศ</a></li>
+                            <li><a class="dropdown-item" href="http://192.168.84.2/library/main/login.asp?openpage=False">บริการและสิ่งอำนวยความสะดวกเพิ่มเติม</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="http://libraryrodjana.com/Contact.html">
+                     <img src="./img/icon11.png" alt="ฐานข้อมูลหนังสืออิเล็กทรอนิกส์ (E-Book)" width="20" height="20">ฐานข้อมูลหนังสืออิเล็กทรอนิกส์ (E-Book)
+                     </a>
+                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://libraryrodjana.com/Contact.html">
+                            <img src="./img/icon2.png" alt="ติดต่อเรา" width="20" height="20">ติดต่อห้องสมุด 
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slider -->
+    <div class="container">
+        <div class="slider-container" id="unique-slider-1">
+            <div class="slides">
+                <div class="slide"><img src="./img/V1.jpg" alt="กิจกรรมทางการแพทย์"></div>
+                <div class="slide"><img src="./img/V2.jpg" alt="อบรมแพทย์ประจำบ้าน"></div>
+                <div class="slide"><img src="./img/V3.jpg" alt="เทคโนโลยีทางการแพทย์"></div>
+            </div>
+            <button class="slider-nav prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-nav next"><i class="fas fa-chevron-right"></i></button>
+            <div class="slider-dots">
+                <div class="slider-dot active"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+            </div>
+        </div>
+
+
+<!-- หัวข้อ: ตัวหนา + Drop Shadow หนักแน่น -->
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700;900&display=swap" rel="stylesheet">
+
+<style>
+  .heading {
+    font-family: 'Kanit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #ffffff;
+    -webkit-text-stroke: 2px black;
+    text-shadow:
+      2px 2px 0px #00000030,
+      4px 4px 0px #00000020,
+      6px 6px 12px rgba(0, 0, 0, 0.25);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    text-align: center;
+  }
+</style>
+
+<h1 class="heading" style="font-size: 1.8rem;">ระบบการสืบค้นทรัพยากรอิเล็กทรอนิกส์</h1>
+<h1 class="heading" style="color: #8BD2EC;">Electronic Holdings Search Engine</h1>
+
+
+ <!-- ส่วนของปุ่ม Highlight -->
+<div class="highlight-btn-container">
+    <div class="highlight-btn-item" 
+         style="background-color: #C3EEFA;" 
+         onclick="handleClick(this, 'https://rama.mahidol.ac.th/library/th/E_database_')">
+        <div class="highlight-btn-icon">
+            <img src="img/s1.png" alt="E-Databases">
+        </div>
+        <div class="highlight-btn-txt">E-Library: E-books</div>
+        <div class="highlight-btn-desp">เข้าใช้งาน E-Library</div>
+    </div>
+    <div class="highlight-btn-item" 
+         style="background-color: #FB6F92;" 
+         onclick="handleClick(this, 'http://lib1.rama.mahidol.ac.th/utd')">
+        <div class="highlight-btn-icon">
+            <img src="img/s2.png" alt="UpToDate">
+        </div>
+        <div class="highlight-btn-txt">UpToDate (Intranet RAMA Only)</div>
+        <div class="highlight-btn-desp">เข้าใช้งานและต่อายุการใช้งาน UpToDate</div>
+    </div>
+    <div class="highlight-btn-item" 
+         style="background-color: #B19CD7;" 
+         onclick="handleClick(this, 'https://www.ncbi.nlm.nih.gov/pubmed/?otool=ithrhfmlib')">
+        <div class="highlight-btn-icon">
+            <img src="img/s3.png" alt="Pubmed">
+        </div>
+        <div class="highlight-btn-txt">Pubmed</div>
+        <div class="highlight-btn-desp">สืบค้นบทความวารสารทางการแพทย์และพยาบาล</div>
+    </div>
+    <div class="highlight-btn-item" 
+         style="background-color: #FCCF55;" 
+         onclick="handleClick(this, 'https://www.ncbi.nlm.nih.gov/pubmed/?otool=ithrhfmlib')">
+        <div class="highlight-btn-icon">
+            <img src="img/s3.png" alt="Pubmed">
+        </div>
+        <div class="highlight-btn-txt">Pubmed</div>
+        <div class="highlight-btn-desp">สืบค้นบทความวารสารทางการแพทย์และพยาบาล</div>
+    </div>
+</div>
+<script>
+    function handleClick(element, url) {
+        document.querySelectorAll('.highlight-btn-item').forEach(btn => {
+            btn.style.backgroundColor = '#ffffff';
+        });
+        window.location.href = url;
+    }
+function handleClick(element, url) {
+    // เปลี่ยนทุกปุ่มเป็นสีขาว
+    document.querySelectorAll('.highlight-btn-item').forEach(btn => {
+        btn.style.backgroundColor = '#ffffff';
+    });
+
+    // เปิด URL
+    window.location.href = url;
+}
+function handleClick(element, url) {
+    element.style.backgroundColor = '#ffffff';
+    window.location.href = url;
+}
+
+</script>
+
+
+        <!-- ข่าวสาร & กิจกรรม -->
+        <div class="two-column-layout">
+            <div class="left-column">
+                <div class="content-box">
+                    <h2><i class="fas fa-newspaper"></i> ข่าวสารล่าสุด</h2>
+                    <ul class="news-list">
+                        <li class="new"><a href="#news1" onclick="showNewsDetail('news1')">เปิดรับสมัครแพทย์ประจำบ้าน ปีการศึกษา 2567 ตั้งแต่วันที่ 1 - 30 ธันวาคม 2566</a></li>
+                        <li class="new"><a href="#news2" onclick="showNewsDetail('news2')">จัดอบรมเชิงปฏิบัติการ "การวินิจฉัยโรคด้วยเทคโนโลยี AI" วันที่ 25 พฤศจิกายน 2566</a></li>
+                        <li><a href="#news3" onclick="showNewsDetail('news3')">ประกาศรายชื่อผู้ผ่านการคัดเลือกเป็นอาจารย์พิเศษประจำศูนย์ ภาคการศึกษาที่ 2/2566</a></li>
+                        <li><a href="#news4" onclick="showNewsDetail('news4')">แจ้งกำหนดการสอบประมวลความรู้ สำหรับนักศึกษาแพทย์ชั้นปีที่ 6 เดือนธันวาคม 2566</a></li>
+                        <li><a href="#news5" onclick="showNewsDetail('news5')">ประชุมวิชาการประจำเดือน "Update in Internal Medicine" วันที่ 30 พฤศจิกายน 2566</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right-column">
+                <div class="content-box">
+                    <h2><i class="fas fa-calendar-check"></i> กิจกรรมและกำหนดการ</h2>
+                    <ul class="event-list">
+                        <li><a href="#event1" onclick="showEventDetail('event1')"><div class="event-date">25 พ.ย. 66</div><div class="event-info"><div class="event-title">อบรมเชิงปฏิบัติการ "การวินิจฉัยโรคด้วยเทคโนโลยี AI"</div><div>เวลา 09:00 - 16:00 น. ณ ห้องประชุมใหญ่</div></div></a></li>
+                        <li><a href="#event2" onclick="showEventDetail('event2')"><div class="event-date">30 พ.ย. 66</div><div class="event-info"><div class="event-title">ประชุมวิชาการ "Update in Internal Medicine"</div><div>เวลา 13:00 - 16:00 น. ณ ห้องประชุม 301</div></div></a></li>
+                        <li><a href="#event3" onclick="showEventDetail('event3')"><div class="event-date">1-30 ธ.ค. 66</div><div class="event-info"><div class="event-title">เปิดรับสมัครแพทย์ประจำบ้าน ปีการศึกษา 2567</div><div>รับสมัครผ่านระบบออนไลน์เท่านั้น</div></div></a></li>
+                        <li><a href="#event4" onclick="showEventDetail('event4')"><div class="event-date">5 ธ.ค. 66</div><div class="event-info"><div class="event-title">สัมมนาวิชาการ "นวัตกรรมการรักษาโรคมะเร็ง"</div><div>เวลา 08:30 - 17:00 น. ณ หอประชุมชั้น 5</div></div></a></li>
+                        <li><a href="#event5" onclick="showEventDetail('event5')"><div class="event-date">10 ธ.ค. 66</div><div class="event-info"><div class="event-title">วันคล้ายวันสถาปนาโรงพยาบาล ครอบรอบ 50 ปี</div><div>เวลา 09:00 - 15:00 น. ณ ลานกิจกรรมหน้าอาคาร</div></div></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="library-header">
+        <h1>📚 ภาพบรรยากาศกิจกรรมห้องสมุดทางการแพทย์</h1>
+        <p>คลังภาพกิจกรรมและบริการห้องสมุดทางการแพทย์</p>
+    </div>
+
+
+    <!-- News Grid -->
+    <div class="news-grid">
+        <div class="news-card">
+            <div class="image-container">
+                <span class="badge">ใหม่!</span>
+                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&h=300&fit=crop" alt="หนังสือใหม่" class="news-image">
+                <div class="overlay"><div class="overlay-text">คลิกเพื่ออ่านรายละเอียด →</div></div>
+            </div>
+            <div class="news-content">
+                <div class="news-date">📅 20 ตุลาคม 2568</div>
+                <div class="news-title">หนังสือใหม่ประจำเดือนตุลาคม</div>
+                <div class="news-description">พบกับหนังสือใหม่กว่า 200 รายการ ทั้งนวนิยาย หนังสือความรู้ และหนังสือเด็ก พร้อมให้บริการแล้ววันนี้!</div>
+            </div>
+        </div>
+        <div class="news-card">
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=500&h=300&fit=crop" alt="กิจกรรมอ่านหนังสือ" class="news-image">
+                <div class="overlay"><div class="overlay-text">คลิกเพื่ออ่านรายละเอียด →</div></div>
+            </div>
+            <div class="news-content">
+                <div class="news-date">📅 15 ตุลาคม 2568</div>
+                <div class="news-title">กิจกรรมส่งเสริมการอ่านสำหรับเด็ก</div>
+                <div class="news-description">เชิญชวนเด็กๆ อายุ 5-12 ปี เข้าร่วมกิจกรรมอ่านหนังสือและทำแบบฝึกหัดสนุกๆ ทุกวันเสาร์-อาทิตย์ ฟรี!</div>
+            </div>
+        </div>
+        <div class="news-card">
+            <div class="image-container">
+                <span class="badge">กิจกรรม</span>
+                <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=500&h=300&fit=crop" alt="สัมมนา" class="news-image">
+                <div class="overlay"><div class="overlay-text">คลิกเพื่ออ่านรายละเอียด →</div></div>
+            </div>
+            <div class="news-content">
+                <div class="news-date">📅 10 ตุลาคม 2568</div>
+                <div class="news-title">อบรมการใช้ฐานข้อมูลออนไลน์</div>
+                <div class="news-description">เรียนรู้วิธีการใช้ฐานข้อมูลออนไลน์และทรัพยากรอิเล็กทรอนิกส์ของห้องสมุด ฟรี! ลงทะเบียนล่วงหน้า</div>
+            </div>
+        </div>
+        <div class="news-card">
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=500&h=300&fit=crop" alt="พื้นที่อ่านหนังสือ" class="news-image">
+                <div class="overlay"><div class="overlay-text">คลิกเพื่ออ่านรายละเอียด →</div></div>
+            </div>
+            <div class="news-content">
+                <div class="news-date">📅 5 ตุลาคม 2568</div>
+                <div class="news-title">เปิดโซนอ่านหนังสือใหม่</div>
+                <div class="news-description">ห้องสมุดได้ปรับปรุงพื้นที่อ่านหนังสือให้สะดวกสบายยิ่งขึ้น พร้อมที่นั่งใหม่และระบบแสงสว่างที่เหมาะสม</div>
+            </div>
+        </div>
+        <div class="news-card">
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=500&h=300&fit=crop" alt="หนังสือเสียง" class="news-image">
+                <div class="overlay"><div class="overlay-text">คลิกเพื่ออ่านรายละเอียด →</div></div>
+            </div>
+            <div class="news-content">
+                <div class="news-date">📅 1 ตุลาคม 2568</div>
+                <div class="news-title">บริการหนังสือเสียงสำหรับผู้พิการทางสายตา</div>
+                <div class="news-description">ห้องสมุดเปิดให้บริการหนังสือเสียงสำหรับผู้พิการทางสายตาและผู้สูงอายุที่อ่านหนังสือลำบาก</div>
+            </div>
+        </div>
+        <div class="news-card">
+            <div class="image-container">
+                <span class="badge">ด่วน!</span>
+                <img src="https://images.unsplash.com/photo-1568667256549-094345857637?w=500&h=300&fit=crop" alt="ปิดบริการ" class="news-image">
+                <div class="overlay"><div class="overlay-text">คลิกเพื่ออ่านรายละเอียด →</div></div>
+            </div>
+            <div class="news-content">
+                <div class="news-date">📅 25 กันยายน 2568</div>
+                <div class="news-title">แจ้งปิดทำความสะอาดประจำปี</div>
+                <div class="news-description">ห้องสมุดจะปิดให้บริการระหว่างวันที่ 1-3 พฤศจิกายน 2568 เพื่อทำความสะอาดและปรับปรุงระบบ ขออภัยในความไม่สะดวก</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Library Activities Section -->
+    <div class="library-header">
+        <h1>📚 ภาพบรรยากาศกิจกรรมห้องสมุดทางการแพทย์</h1>
+        <p>คลังภาพกิจกรรมและบริการห้องสมุดทางการแพทย์</p>
+    </div>
+    <div class="library-main-container">
+        <div class="library-home-menu">
+            <div class="library-menu-card" onclick="location.href='medical-activities.html'">
+                <div class="library-menu-image"><img src="img/m9.jpg" alt="บริการสืบค้นทรัพยากร"></div>
+                <div class="library-menu-content">
+                    <h3>บริการสืบค้นทรัพยากร</h3>
+                    <p>ภาพบรรยากาศการให้บริการสืบค้นข้อมูลและทรัพยากรทางการแพทย์</p>
+                    <span class="library-menu-btn">คลิกเพื่อดูรูปภาพทั้งหมด</span>
+                </div>
+            </div>
+            <div class="library-menu-card" onclick="location.href='community-services.html'">
+                <div class="library-menu-image"><img src="img/m15.jpg" alt="กิจกรรมส่งเสริมการอ่าน"></div>
+                <div class="library-menu-content">
+                    <h3>กิจกรรมส่งเสริมการอ่าน</h3>
+                    <p>ภาพกิจกรรมส่งเสริมนิสัยรักการอ่านและแลกเปลี่ยนความรู้</p>
+                    <span class="library-menu-btn">คลิกเพื่อดูรูปภาพทั้งหมด</span>
+                </div>
+            </div>
+            <div class="library-menu-card" onclick="location.href='special-events.html'">
+                <div class="library-menu-image"><img src="img/m11.jpg" alt="การฝึกอบรมและสัมมนา"></div>
+                <div class="library-menu-content">
+                    <h3>การฝึกอบรมและสัมมนา</h3>
+                    <p>ภาพกิจกรรมอบรมการใช้งานฐานข้อมูลและสัมมนาวิชาการ</p>
+                    <span class="library-menu-btn">คลิกเพื่อดูรูปภาพทั้งหมด</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron text-center">
+        <div>
+            <h1 class="display-4">สาขาวิชาการแพทย์</h1>
+            <p class="lead">ยินดีต้อนรับสู่เว็บไซต์สาขาวิชาการแพทย์</p>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            <div class="position-relative d-inline-block mx-2">
+                <button id="menuToggle1" class="btn btn-primary menu-toggle-btn"><i class="fa fa-bars"></i> เมนูกลุ่มวิชาการ 1</button>
+                <div id="dropdownMenu1" class="dropdown-menu-container">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item"><a class="nav-link active" href="#"><i class="fa fa-group"></i>&nbsp;สาขาวิชาทางการแพทย์</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php?frm=adult">อายุรศาสตร์ ( Internal Medicine )</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php?frm=suti">กุมารเวชศาสตร์ ( Pediatrics )</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="position-relative d-inline-block mx-2">
+                <button id="menuToggle2" class="btn btn-info menu-toggle-btn"><i class="fa fa-book"></i> เมนูกลุ่มวิชาการ 2</button>
+                <div id="dropdownMenu2" class="dropdown-menu-container">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item"><a class="nav-link" href="index.php?frm=jit">ศัลยศาสตร์ ( Pediatric Surgery )</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php?frm=dek">ออร์โธปิดิกส์ ( Orthopedics )</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php?frm=chomchon">สูตินรีเวชกรรม ( Obstetrics and Gynecology )</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Image Gallery -->
+    <h2> ห้องสมุดศูนย์แพทยศาสตรศึกษาชั้นคลินิก Clinical medical Education center Library </h2>
+    <p>อาคารศูนย์แพทย์, </p>
+    <div class="scroll-container">
+        <img src="img/T2.jpg" alt="Cinque Terre" width="600" height="400">
+        <img src="img/T3.jpg" alt="Forest" width="600" height="400">
+        <img src="img/T4.jpg" alt="Northern Lights" width="600" height="400">
+        <img src="img/LI14.jpg" alt="Mountains" width="600" height="400">
+    </div>
+    <p>วันที่ 22 เดือน กรกฎาคม พ.ศ. 2568</p>
+
+    <!-- Notification Bar -->
+    <div class="notification-bar">
+        <div class="notification-content">
+            <span class="notification-icon">🔥</span>
+            <span>ข่าวด่วน: เปิดตัวฟีเจอร์ใหม่! เช็กอินรายวันเพื่อรับคะแนนสะสมและของรางวัลพิเศษ 🔥</span>
+        </div>
+    </div>
+
+   <!-- Footer -->
+<footer style="width: 100%; background-color: #64abf2; border-top: 2px solid #ee46da; padding: 20px 0;">
+  <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+    
+    <!-- ชื่อและตำแหน่ง -->
+    <p style="margin: 0 0 4px 0; font-size: 16px; font-weight: bold; color: #ffffff; letter-spacing: 1px;">
+      Sumalee Lueamsai
+    </p>
+    <p style="margin: 0 0 10px 0; font-size: 13px; color: #f0f0f0; letter-spacing: 0.5px;">
+      บรรณารักษ์ | ศูนย์แพทยศาสตร์ 
+    </p>
+
+    <!-- เส้นคั่น -->
+    <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.4); width: 60%; margin: 0 auto 10px auto;">
+
+    <!-- ลิขสิทธิ์และลิงก์ -->
+    <p style="margin: 0; font-size: 12px; color: #f0f0f0;">
+      &copy; 2026 Sumalee Lueamsai &nbsp;|&nbsp;
+      <a href="http://libraryrodjana.com" style="color: #ffffff; text-decoration: underline; font-weight: bold;">
+        เยี่ยมชมเว็บไซต์
+      </a>
+    </p>
+
+  </div>
+</footer>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script>
+       
+        // Header image carousel
+        let images = document.querySelectorAll('header img');
+        let currentIndex = 0;
+        function showImage(index) { images.forEach(img => img.classList.remove('active')); images[index].classList.add('active'); }
+        function nextImage() { currentIndex = (currentIndex + 1) % images.length; showImage(currentIndex); }
+        function prevImage() { currentIndex = (currentIndex - 1 + images.length) % images.length; showImage(currentIndex); }
+        setInterval(nextImage, 10000);
+
+        // Slider
+        const slider = document.getElementById('unique-slider-1');
+        const slidesEl = slider.querySelector('.slides');
+        const prevBtn = slider.querySelector('.prev');
+        const nextBtn = slider.querySelector('.next');
+        const dots = slider.querySelectorAll('.slider-dot');
+        let currentSlide = 0;
+        const totalSlides = 3;
+        function updateSlider() {
+            slidesEl.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+            dots.forEach((dot, index) => { dot.classList.toggle('active', index === currentSlide); });
+        }
+        nextBtn.addEventListener('click', () => { currentSlide = (currentSlide + 1) % totalSlides; updateSlider(); });
+        prevBtn.addEventListener('click', () => { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateSlider(); });
+        dots.forEach((dot, index) => { dot.addEventListener('click', () => { currentSlide = index; updateSlider(); }); });
+        setInterval(() => { currentSlide = (currentSlide + 1) % totalSlides; updateSlider(); }, 5000);
+
+        // News detail
+        function showNewsDetail(newsId) {
+            const newsDetails = {
+                'news1': { title: 'เปิดรับสมัครแพทย์ประจำบ้าน ปีการศึกษา 2567', content: 'ตั้งแต่วันที่ 1 - 30 ธันวาคม 2566\n\nคุณสมบัติผู้สมัคร:\n- สำเร็จการศึกษาแพทยศาสตร์บัณฑิต\n- มีใบอนุญาตประกอบวิชาชีพเวชกรรม\n\nติดต่อสอบถามเพิ่มเติม: 02-xxx-xxxx' },
+                'news2': { title: 'จัดอบรมเชิงปฏิบัติการ "การวินิจฉัยโรคด้วยเทคโนโลยี AI"', content: 'วันที่ 25 พฤศจิกายน 2566\nเวลา 09:00 - 16:00 น.\nสถานที่: ห้องประชุมใหญ่ ชั้น 5' },
+                'news3': { title: 'ประกาศรายชื่อผู้ผ่านการคัดเลือกเป็นอาจารย์พิเศษ', content: 'ประจำศูนย์ ภาคการศึกษาที่ 2/2566\n\nดูรายชื่อได้ที่บอร์ดประชาสัมพันธ์หรือเว็บไซต์ของศูนย์' },
+                'news4': { title: 'แจ้งกำหนดการสอบประมวลความรู้', content: 'สำหรับนักศึกษาแพทย์ชั้นปีที่ 6\nวันสอบ: 15 ธันวาคม 2566\nเวลา: 09:00 - 12:00 น.' },
+                'news5': { title: 'ประชุมวิชาการประจำเดือน "Update in Internal Medicine"', content: 'วันที่ 30 พฤศจิกายน 2566\nเวลา 13:00 - 16:00 น.\nณ ห้องประชุม 301' }
+            };
+            const news = newsDetails[newsId];
+            alert(`${news.title}\n\n${news.content}`);
+        }
+
+        // Event detail
+        function showEventDetail(eventId) {
+            const eventDetails = {
+                'event1': { title: 'อบรมเชิงปฏิบัติการ "การวินิจฉัยโรคด้วยเทคโนโลยี AI"', content: 'วันที่: 25 พฤศจิกายน 2566\nเวลา: 09:00 - 16:00 น.\nสถานที่: ห้องประชุมใหญ่' },
+                'event2': { title: 'ประชุมวิชาการ "Update in Internal Medicine"', content: 'วันที่: 30 พฤศจิกายน 2566\nเวลา: 13:00 - 16:00 น.\nสถานที่: ห้องประชุม 301' },
+                'event3': { title: 'เปิดรับสมัครแพทย์ประจำบ้าน ปีการศึกษา 2567', content: 'ระยะเวลา: 1-30 ธันวาคม 2566\nรับสมัครผ่านระบบออนไลน์เท่านั้น' },
+                'event4': { title: 'สัมมนาวิชาการ "นวัตกรรมการรักษาโรคมะเร็ง"', content: 'วันที่: 5 ธันวาคม 2566\nเวลา: 08:30 - 17:00 น.\nณ หอประชุมชั้น 5' },
+                'event5': { title: 'วันคล้ายวันสถาปนาโรงพยาบาล ครอบรอบ 50 ปี', content: 'วันที่: 10 ธันวาคม 2566\nเวลา: 09:00 - 15:00 น.\nณ ลานกิจกรรมหน้าอาคาร' }
+            };
+            const event = eventDetails[eventId];
+            alert(`${event.title}\n\n${event.content}`);
+        }
+
+        // Dropdown menus
+        document.addEventListener('DOMContentLoaded', function() {
+            function setupMenu(buttonId, menuId, label) {
+                const menuToggle = document.getElementById(buttonId);
+                const dropdownMenu = document.getElementById(menuId);
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                    menuToggle.innerHTML = dropdownMenu.classList.contains('show') ? '<i class="fa fa-times"></i> ปิดเมนู' : label;
+                });
+            }
+            setupMenu('menuToggle1', 'dropdownMenu1', '<i class="fa fa-bars"></i> เมนูกลุ่มวิชาการ 1');
+            setupMenu('menuToggle2', 'dropdownMenu2', '<i class="fa fa-book"></i> เมนูกลุ่มวิชาการ 2');
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('#menuToggle1') && !event.target.closest('#dropdownMenu1')) {
+                    document.getElementById('dropdownMenu1').classList.remove('show');
+                    document.getElementById('menuToggle1').innerHTML = '<i class="fa fa-bars"></i> เมนูกลุ่มวิชาการ 1';
+                }
+                if (!event.target.closest('#menuToggle2') && !event.target.closest('#dropdownMenu2')) {
+                    document.getElementById('dropdownMenu2').classList.remove('show');
+                    document.getElementById('menuToggle2').innerHTML = '<i class="fa fa-book"></i> เมนูกลุ่มวิชาการ 2';
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>
