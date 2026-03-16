@@ -1,0 +1,1053 @@
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ห้องสมุด Rodjana สถานที่ที่เต็มไปด้วยความรู้และความสนุกสนาน">
+    <title>Library Rodjana</title>
+    <!-- เพิ่ม Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* สไตล์เพิ่มเติม */
+         /* สไตล์เพิ่มเติม */
+         header {
+            width: 100%;
+            height: 32vh; /* กำหนดความสูงของ header เป็น 50% ของ viewport height */
+            overflow: hidden;
+            position: relative;
+            background-color: #ffffff;
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header img {
+            width: 100%; /* กำหนดความกว้าง 100% */
+            height: 100%; /* กำหนดความสูง 100% */
+            object-fit: contain; /* ปรับขนาดรูปภาพให้พอดีกับ container โดยไม่ตัด */
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        header img.active {
+            opacity: 1;
+        }
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(236, 40, 206, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 3;
+        }
+        .carousel-control.prev {
+            left: 10px;
+        }
+        .carousel-control.next {
+            right: 10px;
+        }
+        .carousel-control:hover {
+            background-color: rgba(238, 94, 210, 0.8);
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .content {
+            padding: 20px;
+        }
+        footer {
+            background-color: #d95c9b;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5em;
+        }
+        .navbar {
+            background-color: #d0449a; /* สีพื้นหลังเมนู */
+            padding: 10px 0;
+        }
+        .nav-item {
+            margin: 0 10px; /* ระยะห่างระหว่างเมนู */
+        }
+        .nav-link {
+            color: #02181f !important; /* สีข้อความเมนู */
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            background-color: #eb1cc5; /* สีพื้นหลังเมื่อ hover */
+            color: #fff !important;
+            transform: translateY(-3px); /* เลื่อนขึ้นเล็กน้อยเมื่อ hover */
+        }
+        .nav-link.active {
+            background-color: #dd53d6; /* สีพื้นหลังเมนูที่ active */
+            color: #fff !important;
+        }
+        .navbar-toggler {
+            border-color: #ebeff0; /* สีขอบปุ่มเมนู mobile */
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23ecf0f1' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        /* สไตล์เพิ่มเติมสำหรับ Dropdown Menu */
+        .dropdown-menu {
+            background-color: #e4dfe4; /* สีพื้นหลัง Dropdown */
+            border: none; /* ลบเส้นขอบ */
+            box-shadow: 0 4px 8px rgba(176, 32, 157, 0.2); /* เงา */
+        }
+
+        .dropdown-item {
+            color: #31a8c9; /* สีข้อความ Dropdown */
+            font-size: 16px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* เอฟเฟกต์เมื่อ hover ใน Dropdown */
+        .dropdown-item:hover {
+            color: #e237a9 !important; /* เปลี่ยนสีข้อความเมื่อ hover */
+            background-color: #f4f9fc; /* พื้นหลังเมื่อ hover */
+            transform: translateX(10px); /* เลื่อนข้อความไปทางขวา */
+        }
+
+        /* เอฟเฟกต์เมื่อคลิกหรือ active */
+        .dropdown-item:active {
+            color: #220909 !important; /* เปลี่ยนสีข้อความเมื่อคลิก */
+            background-color: #e74c3c; /* พื้นหลังเมื่อคลิก */
+        }
+
+        /* เอฟเฟกต์เส้นใต้เมื่อ hover */
+        .dropdown-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #3498db; /* สีเส้นใต้ */
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .dropdown-item:hover::after {
+            width: 100%; /* ขยายเส้นใต้เมื่อ hover */
+        }
+        .navbar-toggler {
+    background-color: #7a2783; /* เปลี่ยนเป็นสีที่คุณต้องการ */
+
+
+}
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <img src="./img/title4.png" alt="Library Rodjana" class="active">
+        <img src="./img/title5.png" alt="Library Rodjana">
+        <img src="./img/title4.png" alt="Library Rodjana">
+        <button class="carousel-control prev" onclick="prevImage()">&#10094;</button>
+        <button class="carousel-control next" onclick="nextImage()">&#10095;</button>
+    </header>
+
+
+   <!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เมนูนำทางที่ปรับแต่งแล้ว</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .navbar-custom {
+            background-color: #46c9e3;
+        }
+
+        .navbar-custom .navbar-nav .nav-link {
+            color: white;
+        }
+
+        .navbar-custom .navbar-nav .nav-link:hover {
+            background-color: rgb(190, 22, 126);
+        }
+
+        .dropdown-menu {
+            background-color: #f9f9f9;
+        }
+
+        .dropdown-menu a {
+            color: rgb(205, 27, 122);
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #ddd;
+            color: rgb(190, 22, 126);
+        }
+
+        .dropdown-item {
+            color: rgb(205, 27, 122);
+            padding: 10px 16px;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: #ddd;
+            color: rgb(190, 22, 126);
+        }
+
+        /* ปรับแต่งเมนูย่อยภายในเมนูหลัก */
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu > .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -6px;
+            margin-left: -1px;
+        }
+
+        .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item.btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            width: 100%;
+            text-align: left;
+            border-radius: 0;
+        }
+
+        .dropdown-item.btn:hover {
+            background-color: #0b7dda;
+            color: white;
+        }
+    </style>
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://libraryrodjana.com/home.html">
+                        <i class="fa fa-home"></i> หน้าแรก
+                    </a>
+                </li>
+                <a class="nav-link dropdown-toggle" href="#about" id="navbarDropdownAbout" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="./img/icon1.png" alt="เกี่ยวกับเรา" width="20" height="20">
+                            เกี่ยวกับเรา
+                        </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownAbout">
+                        <li><a class="dropdown-item" href="http://libraryrodjana.com/LibraryHistory.html">ประวัติความเป็นมาห้องสมุด </a></li>
+                        <li><a class="dropdown-item" href="http://libraryrodjana.com/medical/structure.html">โครงสร้างการบริหารงานห้องสมุด</a></li>
+                        <li><a class="dropdown-item" href="http://libraryrodjana.com/medical/Personnel.html">บุคลากรปฏิบัติงานห้องสมุดโรงพยาบาล</a></li>
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item" href="#mission">
+    <i class="fas fa-hospital-user"></i> ฝ่ายงาน(กลุ่มงาน)
+</a>
+<ul class="dropdown-menu">
+    <li>
+        <a class="dropdown-item" href="#">
+            <i class="fas fa-baby"></i> กุมารเวชกรรม
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="#">
+            <i class="fas fa-bone"></i> ออโธปิดิกส์
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="#">
+            <i class="fas fa-female"></i> สูติ-นรีเวชกรรม
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="#">
+            <i class="fas fa-user-md"></i> ศัลยกรรม
+        </a>
+    </li>
+</ul>
+                        </li>
+                    </ul>
+                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#services" id="navbarDropdownServices" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="./img/icon3.png" alt="บริการ" width="20" height="20">
+                            บริการ
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownServices">
+                            <li><a class="dropdown-item" href="http://libraryrodjana.com/library.html">ห้องสมุดโรงพยาบาล</a></li>
+                            <li><a class="dropdown-item" href="http://libraryrodjana.com/medical.html">ฐานข้อมูลทางการแพทย์</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">
+                            <img src="./img/icon2.png" alt="ติดต่อเรา" width="20" height="20">
+                            ติดต่อเรา
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- แนบ CSS ของ Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- แนบ JavaScript ของ Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+    </html>
+    
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บุคลากรศูนย์แพทยศาสตรศึกษา</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Isolated Container Reset ===== */
+        .mec-staff-container {
+            all: initial;
+            display: block;
+            font-family: 'Sarabun', 'Prompt', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            position: relative;
+            isolation: isolate;
+        }
+        
+        .mec-staff-container *,
+        .mec-staff-container *::before,
+        .mec-staff-container *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ป้องกันการ inherit styles จากภายนอก */
+        .mec-staff-container * {
+            all: unset;
+            display: revert;
+            box-sizing: border-box;
+        }
+
+        /* กู้คืน styles ที่จำเป็น */
+        .mec-staff-container h1,
+        .mec-staff-container h2,
+        .mec-staff-container h3,
+        .mec-staff-container p,
+        .mec-staff-container div,
+        .mec-staff-container section,
+        .mec-staff-container header,
+        .mec-staff-container img,
+        .mec-staff-container i {
+            font-family: inherit;
+        }
+
+        /* ===== Main Wrapper ===== */
+        .mec-staff-container .mec-staff-wrapper {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: auto;
+            padding: 80px 20px 60px;
+            position: relative;
+            overflow: hidden;
+            display: block;
+        }
+
+        /* Subtle Background Pattern */
+        .mec-staff-container .mec-staff-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .mec-staff-container .mec-staff-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: block;
+        }
+
+        /* ===== Page Header ===== */
+        .mec-staff-container .mec-page-header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: mec-fadeInDown 0.8s ease;
+            display: block;
+        }
+
+        .mec-staff-container .mec-page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 16px;
+            line-height: 1.3;
+            font-family: 'Prompt', sans-serif;
+            display: block;
+        }
+
+        .mec-staff-container .mec-page-subtitle {
+            font-size: 1.25rem;
+            color: #64748b;
+            font-weight: 400;
+            display: block;
+        }
+
+        /* ===== Section Container ===== */
+        .mec-staff-container .mec-section {
+            margin-bottom: 100px;
+            display: block;
+        }
+
+        .mec-staff-container .mec-section-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            padding: 28px 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mec-staff-container .mec-section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: mec-shine 3s infinite;
+        }
+
+        @keyframes mec-shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .mec-staff-container .mec-section-icon {
+            font-size: 2.2rem;
+            color: #ffffff;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            display: inline-block;
+        }
+
+        .mec-staff-container .mec-section-title {
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: #ffffff;
+            font-family: 'Prompt', sans-serif;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+
+        /* ===== Department Head Card ===== */
+        .mec-staff-container .mec-head-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .mec-staff-container .mec-head-card {
+            width: 100%;
+            max-width: 380px;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.12),
+                0 0 0 1px rgba(251, 191, 36, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            animation: mec-fadeInUp 0.8s ease;
+            display: block;
+        }
+
+        .mec-staff-container .mec-head-badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #78350f;
+            text-align: center;
+            padding: 14px 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+            display: block;
+        }
+
+        .mec-staff-container .mec-head-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.18),
+                0 0 0 2px rgba(251, 191, 36, 0.5),
+                0 0 60px rgba(251, 191, 36, 0.3);
+        }
+
+        /* ===== Staff Grid ===== */
+        .mec-staff-container .mec-staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== Staff Card ===== */
+        .mec-staff-container .mec-staff-card {
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            animation: mec-fadeInUp 0.8s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mec-staff-container .mec-staff-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(99, 102, 241, 0.2),
+                0 0 40px rgba(99, 102, 241, 0.15);
+        }
+
+        /* ===== Image Container ===== */
+        .mec-staff-container .mec-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 125%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            display: block;
+        }
+
+        .mec-staff-container .mec-head-card .mec-image-container {
+            margin-top: 52px;
+        }
+
+        .mec-staff-container .mec-staff-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
+        }
+
+        .mec-staff-container .mec-staff-card:hover .mec-staff-image,
+        .mec-staff-container .mec-head-card:hover .mec-staff-image {
+            transform: scale(1.1);
+        }
+
+        /* Image Overlay Effect */
+        .mec-staff-container .mec-image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, 
+                rgba(0, 0, 0, 0.6) 0%, 
+                transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .mec-staff-container .mec-staff-card:hover .mec-image-container::after,
+        .mec-staff-container .mec-head-card:hover .mec-image-container::after {
+            opacity: 1;
+        }
+
+        /* ===== Staff Info ===== */
+        .mec-staff-container .mec-staff-info {
+            padding: 28px 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #ffffff;
+            transition: background 0.4s ease;
+        }
+
+        .mec-staff-container .mec-staff-card:hover .mec-staff-info,
+        .mec-staff-container .mec-head-card:hover .mec-staff-info {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+
+        .mec-staff-container .mec-staff-name {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            font-family: 'Prompt', sans-serif;
+            transition: color 0.4s ease;
+            display: block;
+        }
+
+        .mec-staff-container .mec-staff-card:hover .mec-staff-name,
+        .mec-staff-container .mec-head-card:hover .mec-staff-name {
+            color: #ffffff;
+        }
+
+        .mec-staff-container .mec-staff-position {
+            font-size: 1.0625rem;
+            color: #64748b;
+            line-height: 1.6;
+            transition: color 0.4s ease;
+            display: block;
+        }
+
+        .mec-staff-container .mec-staff-card:hover .mec-staff-position,
+        .mec-staff-container .mec-head-card:hover .mec-staff-position {
+            color: #e0e7ff;
+        }
+
+        /* ===== Animation Delays ===== */
+        .mec-staff-container .mec-staff-card:nth-child(1) { animation-delay: 0.1s; }
+        .mec-staff-container .mec-staff-card:nth-child(2) { animation-delay: 0.15s; }
+        .mec-staff-container .mec-staff-card:nth-child(3) { animation-delay: 0.2s; }
+        .mec-staff-container .mec-staff-card:nth-child(4) { animation-delay: 0.25s; }
+        .mec-staff-container .mec-staff-card:nth-child(5) { animation-delay: 0.3s; }
+        .mec-staff-container .mec-staff-card:nth-child(6) { animation-delay: 0.35s; }
+
+        /* ===== Keyframe Animations ===== */
+        @keyframes mec-fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes mec-fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== Footer ===== */
+        .mec-staff-container .mec-footer {
+            margin-top: 120px;
+            padding: 70px 40px 40px;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-top: 4px solid #6366f1;
+            position: relative;
+            display: block;
+        }
+
+        .mec-staff-container .mec-footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .mec-staff-container .mec-footer-section h3 {
+            color: #ffffff;
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            position: relative;
+            padding-bottom: 12px;
+            font-family: 'Prompt', sans-serif;
+            display: block;
+        }
+
+        .mec-staff-container .mec-footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 2px;
+        }
+
+        .mec-staff-container .mec-footer-section p,
+        .mec-staff-container .mec-footer-section a {
+            color: #cbd5e1;
+            font-size: 1rem;
+            line-height: 1.8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+        }
+
+        .mec-staff-container .mec-footer-section a:hover {
+            color: #ffffff;
+        }
+
+        .mec-staff-container .mec-footer-links {
+            list-style: none;
+            display: block;
+        }
+
+        .mec-staff-container .mec-footer-links li {
+            margin-bottom: 14px;
+            display: list-item;
+        }
+
+        .mec-staff-container .mec-footer-links a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mec-staff-container .mec-footer-links i {
+            color: #6366f1;
+            font-size: 1.125rem;
+            width: 20px;
+            display: inline-block;
+        }
+
+        .mec-staff-container .mec-footer-social {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .mec-staff-container .mec-footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .mec-staff-container .mec-footer-social a:hover {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .mec-staff-container .mec-footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.9375rem;
+            display: block;
+        }
+
+        .mec-staff-container .mec-footer-bottom a {
+            color: #6366f1;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: inline;
+        }
+
+        .mec-staff-container .mec-footer-bottom a:hover {
+            color: #8b5cf6;
+        }
+
+        /* ===== Responsive Design ===== */
+        @media (max-width: 1200px) {
+            .mec-staff-container .mec-staff-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 35px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mec-staff-container .mec-staff-wrapper {
+                padding: 60px 16px 40px;
+            }
+
+            .mec-staff-container .mec-page-title {
+                font-size: 2.25rem;
+            }
+
+            .mec-staff-container .mec-page-subtitle {
+                font-size: 1.125rem;
+            }
+
+            .mec-staff-container .mec-section-header {
+                padding: 24px 28px;
+                gap: 16px;
+            }
+
+            .mec-staff-container .mec-section-icon {
+                font-size: 2rem;
+            }
+
+            .mec-staff-container .mec-section-title {
+                font-size: 1.625rem;
+            }
+
+            .mec-staff-container .mec-staff-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 30px;
+            }
+
+            .mec-staff-container .mec-footer {
+                padding: 50px 24px 30px;
+            }
+
+            .mec-staff-container .mec-footer-content {
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mec-staff-container .mec-page-title {
+                font-size: 1.875rem;
+            }
+
+            .mec-staff-container .mec-page-subtitle {
+                font-size: 1rem;
+            }
+
+            .mec-staff-container .mec-section-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 20px;
+            }
+
+            .mec-staff-container .mec-staff-grid {
+                grid-template-columns: 1fr;
+                max-width: 380px;
+                margin: 0 auto;
+            }
+
+            .mec-staff-container .mec-staff-name {
+                font-size: 1.25rem;
+            }
+
+            .mec-staff-container .mec-staff-position {
+                font-size: 1rem;
+            }
+
+            .mec-staff-container .mec-footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mec-staff-container">
+        <div class="mec-staff-wrapper">
+            <div class="mec-staff-content">
+                <!-- Page Header -->
+                <header class="mec-page-header">
+                    <h1 class="mec-page-title">บุคลากรศูนย์แพทยศาสตรศึกษา<br></h1>
+                    <p class="mec-page-subtitle">ทีมงานมืออาชีพที่พร้อมให้บริการด้วยใจ</p>
+                </header>
+
+                <!-- กลุ่มงานห้องสมุด -->
+                <section class="mec-section">
+                    <div class="mec-section-header">
+                        <i class="mec-section-icon fas fa-book"></i>
+                        <h2 class="mec-section-title">กลุ่มงานห้องสมุด</h2>
+                    </div>
+
+                    <!-- หัวหน้างาน -->
+                    <div class="mec-head-wrapper">
+                        <div class="mec-head-card">
+                            <div class="mec-head-badge">หัวหน้างาน</div>
+                            <div class="mec-image-container">
+                                <img src="./img/LI1.png" alt="นางสาว01" class="mec-staff-image">
+                            </div>
+                            <div class="mec-staff-info">
+                                <div class="mec-staff-name">นางสาว01</div>
+                                <div class="mec-staff-position">บรรณารักษ์ชำนาญการ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- บุคลากร -->
+                    <div class="mec-staff-grid">
+                        <div class="mec-staff-card">
+                            <div class="mec-image-container">
+                                <img src="./img/LI2.jpg" alt="นางสาว02" class="mec-staff-image">
+                            </div>
+                            <div class="mec-staff-info">
+                                <div class="mec-staff-name">นางสาว02 </div>
+                                <div class="mec-staff-position">บรรณารักษ์</div>
+                            </div>
+                        </div>
+
+                        <div class="mec-staff-card">
+                            <div class="mec-image-container">
+                                <img src="./img/LI3.jpg" alt="นาง03" class="mec-staff-image">
+                            </div>
+                            <div class="mec-staff-info">
+                                <div class="mec-staff-name">นาง03</div>
+                                <div class="mec-staff-position">พนักงานห้องสมุด</div>
+                            </div>
+                        </div>
+
+                        <div class="mec-staff-card">
+                            <div class="mec-image-container">
+                                <img src="./img/LI4.png" alt="นางสาว04" class="mec-staff-image">
+                            </div>
+                            <div class="mec-staff-info">
+                                <div class="mec-staff-name">นางสาว04</div>
+                                <div class="mec-staff-position">เจ้าพนักงานห้องสมุด</div>
+                            </div>
+                        </div>
+
+                        <div class="mec-staff-card">
+                            <div class="mec-image-container">
+                                <img src="./img/LI5.png" alt="นางว05" class="mec-staff-image">
+                            </div>
+                            <div class="mec-staff-info">
+                                <div class="mec-staff-name">นาง05</div>
+                                <div class="mec-staff-position">พนักงานบริการ</div>
+                            </div>
+                        </div>
+
+                        <div class="mec-staff-card">
+                            <div class="mec-image-container">
+                                <img src="./img/LI7.jpg" alt="นางสาว06" class="mec-staff-image">
+                            </div>
+                            <div class="mec-staff-info">
+                                <div class="mec-staff-name">นางสาว06</div>
+                                <div class="mec-staff-position">เจ้าพนักงานห้องสมุด</div>
+                            </div>
+                        </div>
+
+                        <div class="mec-staff-card">
+                            <div class="mec-image-container">
+                                <img src="./img/LI6.png" alt="นางสาว07" class="mec-staff-image">
+                            </div>
+                            <div class="mec-staff-info">
+                                <div class="mec-staff-name">นางสาว07</div>
+                                <div class="mec-staff-position">พนักงานบริการ</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+                
+            <!-- Footer -->
+           <footer style="width: 100%; text-align: center; padding: 10px 0; background-color: #64abf2; border-top: 1px solid #ee46da;">
+    <p>&copy; 2025 โดย Sumalee Lueamsai | <a href="http://libraryrodjana.com">เยี่ยมชมเว็บไซต์</a></p>
+</footer>
+<link rel="stylesheet" href="styles.css">
+
+
+
+    <!-- เพิ่ม Bootstrap JS และ dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <!-- เพิ่ม Font Awesome สำหรับไอคอนโซเชียลมีเดีย -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script>
+        // สคริปต์สำหรับเปลี่ยนภาพ
+        let images = document.querySelectorAll('header img');
+        let currentIndex = 0;
+
+        function showImage(index) {
+            // ซ่อนภาพทั้งหมด
+            images.forEach(img => img.classList.remove('active'));
+            // แสดงภาพที่เลือก
+            images[index].classList.add('active');
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage(currentIndex);
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage(currentIndex);
+        }
+
+        // เปลี่ยนภาพทุก 10 วินาที
+        setInterval(nextImage, 10000);
+    </script>
+
+</body>
+</html>
+
+    
+    
+
+
+
+
+
+
+
+
+    
